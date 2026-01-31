@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+    --font-arabic: "Cairo", sans-serif;
+}
+
+body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: 'Cairo', sans-serif;
+}
+
+input {
+    @apply border-2 border-green-100 p-2 rounded-lg focus:border-green-500 focus:outline-none transition-all duration-300;
+}
+
+/* Custom Scrollbar for the Table */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-green-200 rounded-full hover:bg-green-300 transition-colors;
+}
+
+/* Glassmorphism utility */
+.glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20;
+}

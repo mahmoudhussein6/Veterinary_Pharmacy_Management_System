@@ -40,38 +40,39 @@ export default function ProductForm({ editingProduct, clearEdit }) {
     };
 
     const PREDEFINED_DESCRIPTIONS = [
-        "مضاد حيوي حقن",
-        "منشط كبد",
-        "فيتامينات حقن",
-        "مضاد فيروسي",
-        "غسول كلوي",
-        "مضاد حيوي شرب",
-        "رافع مناعة",
-        "مضاد اجهاد حراري",
-        "خماير",
+        "إضافات",
         "املاح معدنية",
         "تجريعات حقن",
+        "خافض حرارة",
+        "خماير",
+        "رافع مناعة",
+        "شرب مضاد حيوي",
+        "غسول كلوي",
+        "فيتامينات حقن",
+        "مضاد اجهاد حراري",
+        "مضاد حيوي حقن",
+        "مضاد حيوي شرب",
+        "مضاد فيروسي",
         "مضاد كلوستريديا",
         "مضاد كوكسيديا",
-        "إضافات",
-        "خافض حرارة",
-        "هـ سيلينيوم",
-        "موسع شعب"
-    ];
+        "منشط كبد",
+        "موسع شعب",
+        "هـ سيلينيوم"
+    ].sort((a, b) => a.localeCompare(b, 'ar'));
 
     const PREDEFINED_SIZES = [
+        "100 جم",
         "100 سم",
-        "لتر",
-        "نص لتر",
-        "200 جم",
-        "نص كيلو",
-        "20 سم",
-        "50 سم",
         "150 سم",
         "2 جم",
-        "100 جم",
-        "كيلو"
-    ];
+        "20 سم",
+        "200 جم",
+        "50 سم",
+        "كيلو",
+        "لتر",
+        "نص كيلو",
+        "نص لتر"
+    ].sort((a, b) => a.localeCompare(b, 'ar'));
 
     const ErrorMsg = ({ name }) => errors[name] ? (
         <span className="text-red-500 text-[10px] font-bold mt-1 bg-red-50 px-2 py-0.5 rounded border border-red-100">{errors[name].message}</span>
@@ -124,7 +125,7 @@ export default function ProductForm({ editingProduct, clearEdit }) {
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>مفتوح (كمية)</label>
-                <input {...register("stock_open", { required: "مطلوب", min: { value: 0.1, message: "أكبر من 0" } })} type="number" step="0.1" placeholder="مفتوح" className={errors.stock_open ? 'border-red-300 ring-1 ring-red-100' : ''} />
+                <input {...register("stock_open", { min: { value: 0, message: "أكبر من أو يساوي 0" } })} type="number" step="0.1" placeholder="مفتوح (اختياري)" className={errors.stock_open ? 'border-red-300 ring-1 ring-red-100' : ''} />
                 <ErrorMsg name="stock_open" />
             </div>
 
@@ -141,8 +142,8 @@ export default function ProductForm({ editingProduct, clearEdit }) {
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>سعر سم</label>
-                <input {...register("price_per_cc", { required: "مطلوب", min: { value: 0.01, message: "أكبر من 0" } })} type="number" step="0.01" placeholder="سعر سم" className={errors.price_per_cc ? 'border-red-300 ring-1 ring-red-100' : ''} />
+                <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>سعر سم / جم</label>
+                <input {...register("price_per_cc", { min: { value: 0.01, message: "أكبر من 0" } })} type="number" step="0.01" placeholder="سعر سم / جم (اختياري)" className={errors.price_per_cc ? 'border-red-300 ring-1 ring-red-100' : ''} />
                 <ErrorMsg name="price_per_cc" />
             </div>
 

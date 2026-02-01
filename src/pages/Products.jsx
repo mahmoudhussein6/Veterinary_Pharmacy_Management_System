@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ProductForm from "../components/ProductForm";
 import ProductTable from "../components/ProductTable";
-import ExcelUploader from "../components/ExcelUploader";
 import ExcelExporter from "../components/ExcelExporter";
 import SearchBar from "../components/SearchBar";
 import { useProducts } from "../context/ProductsContext";
@@ -11,16 +10,18 @@ export default function Products() {
     const [search, setSearch] = useState("");
     const [editingProduct, setEditingProduct] = useState(null);
 
-    const filteredProducts = products.filter((p) =>
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        (p.description && p.description.toLowerCase().includes(search.toLowerCase()))
-    );
+    const filteredProducts = products
+        .filter((p) =>
+            p.name.toLowerCase().includes(search.toLowerCase()) ||
+            (p.description && p.description.toLowerCase().includes(search.toLowerCase()))
+        )
+        .sort((a, b) => a.name.localeCompare(b, 'ar'));
 
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex gap-2">
-                    <ExcelUploader />
+
                     <ExcelExporter />
                 </div>
                 <div className="w-full md:w-1/2">

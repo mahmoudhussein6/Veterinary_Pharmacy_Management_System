@@ -43,7 +43,7 @@ export default function ProductTable({ productsToDisplay, setEditingProduct }) {
                             <th className="px-6 py-4 font-bold text-base whitespace-nowrap">الحجم</th>
                             <th className="px-6 py-4 font-bold text-base whitespace-nowrap">سعر المكتب</th>
                             <th className="px-6 py-4 font-bold text-base whitespace-nowrap">سعر الجمهور</th>
-                            <th className="px-6 py-4 font-bold text-base whitespace-nowrap">سعر سم</th>
+                            <th className="px-6 py-4 font-bold text-base whitespace-nowrap">سعر سم / جم</th>
                             <th className="px-6 py-4 font-bold text-base whitespace-nowrap bg-green-900/30">الإجمالي</th>
                             <th className="px-6 py-4 font-bold text-base whitespace-nowrap">تاريخ الانتهاء</th>
                             <th className="px-6 py-4 font-bold text-base whitespace-nowrap">الأيام الباقية</th>
@@ -53,7 +53,7 @@ export default function ProductTable({ productsToDisplay, setEditingProduct }) {
                     <tbody className="divide-y divide-gray-100">
                         {products.map((p, index) => {
                             const daysRemaining = calculateDaysRemaining(p.expiry_date);
-                            const total = ((Number(p.stock_closed) || 0) + (Number(p.stock_open) || 0)) * (Number(p.price_office) || 0);
+                            const total = (Number(p.stock_closed) || 0) * (Number(p.price_office) || 0);
 
                             const isTotalRow = p.name?.includes("إجمالي") || p.name?.toLowerCase().includes("total");
 
@@ -113,6 +113,15 @@ export default function ProductTable({ productsToDisplay, setEditingProduct }) {
                                 </tr>
                             );
                         })}
+                        {products.length > 0 && (
+                            <tr className="bg-indigo-700 text-white font-bold text-lg">
+                                <td colSpan="9" className="px-6 py-4 text-left">إجمالي قيمة المخزن (مغلق):</td>
+                                <td className="px-6 py-4 font-bold bg-indigo-800">
+                                    L.E {products.reduce((acc, p) => acc + ((Number(p.stock_closed) || 0) * (Number(p.price_office) || 0)), 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </td>
+                                <td colSpan="3" className="bg-indigo-700"></td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

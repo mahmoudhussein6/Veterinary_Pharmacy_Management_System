@@ -1,16 +1,57 @@
-# React + Vite
+# 🏥 نظام إدارة الصيدلية البيطرية | Veterinary Pharmacy Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+نظام إدارة مخزون احترافي مصمم خصيصاً للصيدليات البيطرية، يهدف إلى تسهيل تتبع المنتجات والمخزون مع تجربة مستخدم عصرية وسلسة.
 
-Currently, two official plugins are available:
+## ✨ المميزات الرئيسية
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **🔐 تأمين الدخول**: نظام تسجيل دخول آمن مع شاشات تأكيد وانتقال احترافية.
+- **📦 إدارة المنتجات**: إضافة، تعديل، وحذف المنتجات بسهولة تامة.
+- **📊 لوحة التحكم**: واجهة رسومية تلخص وضع المخزن والمنتجات.
+- **🔍 بحث متطور**: نظام بحث سريع وتفاعلي مع رسائل توضيحية في حالة عدم وجود نتائج.
+- **📥 تصدير البيانات**: إمكانية تصدير قوائم المنتجات إلى ملفات Excel بضغطة زر.
+- **📱 واجهة متجاوبة**: تصميم عصري يعمل بكفاءة على جميع الأجهزة (موبايل، تابلت، كمبيوتر).
+- **🚀 تحسين محركات البحث**: دعم كامل لـ SEO و Open Graph لظهور احترافي في نتائج البحث ومشاركة الروابط.
 
-## React Compiler
+## 🛠 التقنيات المستخدمة
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: [React.js](https://reactjs.org/) (v18+)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
+- **Form Handling**: [React Hook Form](https://react-hook-form.com/)
+- **SEO**: [React Helmet Async](https://github.com/staylor/react-helmet-async)
+- **Data Export**: [XLSX (SheetJS)](https://sheetjs.com/)
 
-## Expanding the ESLint configuration
+## 🚀 التشغيل السريع
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### المتطلبات الأساسية
+- [Node.js](https://nodejs.org/) (إصدار 16 أو أحدث)
+- [NPM](https://www.npmjs.com/)
+
+### خطوات التثبيت
+1. قم بتحميل المشروع أو عمل Clone له.
+2. افتح مجلد المشروع في الـ Terminal.
+3. قم بتثبيت المكتبات المطلوبة:
+   ```bash
+   npm install
+   ```
+4. قم بتشغيل المشروع في وضع التطوير:
+   ```bash
+   npm run dev
+   ```
+
+## 🔑 بيانات الدخول الافتراضية
+
+- **اسم المستخدم:** `admin123@vet.com`
+- **كلمة المرور:** `admin@123`
+
+## 📁 هيكلية المشروع
+
+- `src/components`: يحتوي على المكونات القابلة لإعادة الاستخدام (Modals, Navbar, etc).
+- `src/pages`: يحتوي على الصفحات الرئيسية (Login, Dashboard, Products).
+- `src/context`: يحتوي على إدارة الحالة (Authentication & Products Context).
+- `public`: يحتوي على الأصول الثابتة والشعار.
+
+---
+تم التطوير بكل ❤️ للصيدليات البيطرية.

@@ -95,12 +95,12 @@ export default function Login() {
                         <FaSignInAlt className="text-xl" />
                     </button>
 
-                    <div className="mt-4 pt-6 border-t border-slate-100 text-center">
+                    {/* <div className="mt-4 pt-6 border-t border-slate-100 text-center">
                         <p className="text-slate-400 text-xs flex flex-col gap-1">
                             <span>اسم المستخدم الافتراضي: <span className="text-slate-600 font-mono font-bold">admin123@vet.com</span></span>
                             <span>كلمة المرور: <span className="text-slate-600 font-mono font-bold">admin@123</span></span>
                         </p>
-                    </div>
+                    </div> */}
                 </form>
             </div>
 

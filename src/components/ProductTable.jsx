@@ -87,7 +87,7 @@ export default function ProductTable({ productsToDisplay, setEditingProduct, sor
                                 </th>
                                 <th className="px-6 py-4 font-bold text-base whitespace-nowrap">المادة الفعالة</th>
                                 <th className="px-6 py-4 font-bold text-base whitespace-nowrap">وصفه</th>
-                                <th className="px-6 py-4 font-bold text-base whitespace-nowrap">مغلق</th>
+                                <th className="px-6 py-4 font-bold text-base whitespace-nowrap">الكمية</th>
                                 <th className="px-6 py-4 font-bold text-base whitespace-nowrap">مفتوح</th>
                                 <th className="px-6 py-4 font-bold text-base whitespace-nowrap">الحجم</th>
                                 <th className="px-6 py-4 font-bold text-base whitespace-nowrap">سعر المكتب</th>

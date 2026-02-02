@@ -118,13 +118,13 @@ export default function ProductForm({ editingProduct, clearEdit }) {
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>مغلق (كمية)</label>
+                <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>الكمية</label>
                 <input {...register("stock_closed", { required: "مطلوب", min: { value: 0.1, message: "أكبر من 0" } })} type="number" step="0.1" placeholder="مغلق" className={errors.stock_closed ? 'border-red-300 ring-1 ring-red-100' : ''} />
                 <ErrorMsg name="stock_closed" />
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>مفتوح (كمية)</label>
+                <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>مفتوح</label>
                 <input {...register("stock_open", { min: { value: 0, message: "أكبر من أو يساوي 0" } })} type="number" step="0.1" placeholder="مفتوح (اختياري)" className={errors.stock_open ? 'border-red-300 ring-1 ring-red-100' : ''} />
                 <ErrorMsg name="stock_open" />
             </div>

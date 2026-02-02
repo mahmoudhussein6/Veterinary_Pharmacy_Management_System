@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   );
 
   const login = (username, password) => {
-    if (username === "admin" && password === "123") {
+    if (username === "admin123@vet.com" && password === "admin@123") {
       const userData = { username };
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);

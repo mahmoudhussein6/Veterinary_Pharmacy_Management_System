@@ -39,16 +39,33 @@ export const exportToExcel = (products) => {
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     };
 
-    const dataToExport = products.map(p => ({
+    const isArabic = (text) => {
+        if (!text) return false;
+        const firstChar = text.trim()[0];
+        return /[\u0600-\u06FF]/.test(firstChar);
+    };
+
+    const sortedProducts = [...products].sort((a, b) => {
+        const aIsAr = isArabic(a.name);
+        const bIsAr = isArabic(b.name);
+
+        // Arabic first, then English
+        if (aIsAr && !bIsAr) return -1;
+        if (!aIsAr && bIsAr) return 1;
+
+        return a.name.localeCompare(b.name, 'ar', { numeric: true, sensitivity: 'accent' });
+    });
+
+    const dataToExport = sortedProducts.map(p => ({
         "اسم المنتج": p.name,
         "المادة الفعالة": p.active_ingredient,
         "وصفه": p.description,
         "مغلق": p.stock_closed,
-        "مفتوح": p.stock_open,
+        "مفتوح": p.stock_open || 0,
         "الحجم": p.size,
         "سعر المكتب": p.price_office,
         "سعر الجمهور": p.price_public,
-        "سعر سم / جم": p.price_per_cc,
+        "سعر سم / جم": p.price_per_cc || 0,
         "الإجمالي": (Number(p.stock_closed) || 0) * (Number(p.price_office) || 0),
         "تاريخ الانتهاء": p.expiry_date,
         "الأيام المتبقية": calculateDaysRemaining(p.expiry_date)

@@ -31,7 +31,7 @@ export default function SplashScreen({ onFinish }) {
                 {/* Text Content */}
                 <div className="space-y-4 animate-in slide-in-from-bottom-10 duration-1000 delay-300 fill-mode-both">
                     <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight drop-shadow-lg">
-                        صيدلية الطبيب البيطري
+                        الصيدلية البيطرية
                     </h1>
                     <div className="flex flex-col items-center gap-4">
                         <span className="text-green-100/80 text-lg md:text-xl font-medium tracking-wide">
@@ -48,7 +48,7 @@ export default function SplashScreen({ onFinish }) {
 
             {/* Bottom Version Note */}
             <div className="absolute bottom-10 text-white/40 text-sm font-light tracking-widest uppercase">
-                Veterinary Pharmacy v2.0
+                الصيدلية البيطرية 
             </div>
 
             <style dangerouslySetInnerHTML={{

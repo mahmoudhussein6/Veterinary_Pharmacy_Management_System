@@ -14,7 +14,7 @@ export default function Navbar() {
                     <FaClinicMedical className="text-2xl" />
                 </div>
                 <div>
-                    <span className="font-black text-xl tracking-tight block">صيدلية الطبيب البيطري</span>
+                    <span className="font-black text-xl tracking-tight block">الصيدلية البيطرية</span>
                     <span className="text-[10px] text-green-200 font-bold tracking-widest uppercase">نظام الإدارة</span>
                 </div>
             </div>

@@ -11,8 +11,8 @@ export const ProductsProvider = ({ children }) => {
         localStorage.setItem("products", JSON.stringify(products));
     }, [products]);
 
-    const addProduct = (product) =>
-        setProducts([...products, product]);
+    const addProduct = (productData) =>
+        setProducts([...products, { ...productData, id: Date.now() + Math.random() }]);
 
     const updateProduct = (id, updatedProduct) =>
         setProducts(products.map((p) => (p.id === id ? { ...updatedProduct, id } : p)));
@@ -20,13 +20,17 @@ export const ProductsProvider = ({ children }) => {
     const deleteProduct = (id) =>
         setProducts(products.filter((p) => p.id !== id));
 
+    const clearAllProducts = () =>
+        setProducts([]);
+
     return (
         <ProductsContext.Provider
-            value={{ products, setProducts, addProduct, updateProduct, deleteProduct }}
+            value={{ products, setProducts, addProduct, updateProduct, deleteProduct, clearAllProducts }}
         >
             {children}
         </ProductsContext.Provider>
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProducts = () => useContext(ProductsContext);

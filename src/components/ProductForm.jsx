@@ -1,12 +1,19 @@
 import { FaPlus, FaSave, FaTimes } from "react-icons/fa";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useProducts } from "../context/ProductsContext";
+import SuccessModal from "./SuccessModal";
 
+
+const ErrorMsg = ({ name, errors }) => errors[name] ? (
+    <span className="text-red-500 text-[10px] font-bold mt-1 bg-red-50 px-2 py-0.5 rounded border border-red-100">{errors[name].message}</span>
+) : null;
 
 export default function ProductForm({ editingProduct, clearEdit }) {
     const { addProduct, updateProduct } = useProducts();
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
 
     useEffect(() => {
         if (editingProduct) {
@@ -32,10 +39,13 @@ export default function ProductForm({ editingProduct, clearEdit }) {
     const onSubmit = (data) => {
         if (editingProduct) {
             updateProduct(editingProduct.id, data);
+            setSuccessMessage(`تم تحديث المنتج "${data.name}" بنجاح!`);
             clearEdit();
         } else {
-            addProduct({ ...data, id: Date.now() });
+            addProduct(data);
+            setSuccessMessage(`تم إضافة المنتج "${data.name}" بنجاح!`);
         }
+        setIsSuccessModalOpen(true);
         reset();
     };
 
@@ -74,10 +84,6 @@ export default function ProductForm({ editingProduct, clearEdit }) {
         "نص لتر"
     ].sort((a, b) => a.localeCompare(b, 'ar'));
 
-    const ErrorMsg = ({ name }) => errors[name] ? (
-        <span className="text-red-500 text-[10px] font-bold mt-1 bg-red-50 px-2 py-0.5 rounded border border-red-100">{errors[name].message}</span>
-    ) : null;
-
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -86,13 +92,13 @@ export default function ProductForm({ editingProduct, clearEdit }) {
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>اسم المنتج</label>
                 <input {...register("name", { required: "مطلوب" })} placeholder="اسم المنتج" className={errors.name ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="name" />
+                <ErrorMsg name="name" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>المادة الفعالة</label>
                 <input {...register("active_ingredient", { required: "مطلوب" })} placeholder="المادة الفعالة" className={errors.active_ingredient ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="active_ingredient" />
+                <ErrorMsg name="active_ingredient" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
@@ -103,7 +109,7 @@ export default function ProductForm({ editingProduct, clearEdit }) {
                         <option key={index} value={desc} />
                     ))}
                 </datalist>
-                <ErrorMsg name="description" />
+                <ErrorMsg name="description" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
@@ -114,62 +120,68 @@ export default function ProductForm({ editingProduct, clearEdit }) {
                         <option key={index} value={size} />
                     ))}
                 </datalist>
-                <ErrorMsg name="size" />
+                <ErrorMsg name="size" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>الكمية</label>
                 <input {...register("stock_closed", { required: "مطلوب", min: { value: 0.1, message: "أكبر من 0" } })} type="number" step="0.1" placeholder="مغلق" className={errors.stock_closed ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="stock_closed" />
+                <ErrorMsg name="stock_closed" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>مفتوح</label>
                 <input {...register("stock_open", { min: { value: 0, message: "أكبر من أو يساوي 0" } })} type="number" step="0.1" placeholder="مفتوح (اختياري)" className={errors.stock_open ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="stock_open" />
+                <ErrorMsg name="stock_open" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>سعر المكتب</label>
                 <input {...register("price_office", { required: "مطلوب", min: { value: 0.01, message: "أكبر من 0" } })} type="number" step="0.01" placeholder="سعر المكتب" className={errors.price_office ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="price_office" />
+                <ErrorMsg name="price_office" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>سعر الجمهور</label>
                 <input {...register("price_public", { required: "مطلوب", min: { value: 0.01, message: "أكبر من 0" } })} type="number" step="0.01" placeholder="سعر الجمهور" className={errors.price_public ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="price_public" />
+                <ErrorMsg name="price_public" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>سعر سم / جم</label>
                 <input {...register("price_per_cc", { min: { value: 0.01, message: "أكبر من 0" } })} type="number" step="0.01" placeholder="سعر سم / جم (اختياري)" className={errors.price_per_cc ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="price_per_cc" />
+                <ErrorMsg name="price_per_cc" errors={errors} />
             </div>
 
             <div className="flex flex-col gap-1">
                 <label className={`text-sm font-semibold ${editingProduct ? 'text-blue-800' : 'text-green-800'}`}>تاريخ الانتهاء</label>
                 <input {...register("expiry_date", { required: "مطلوب" })} type="date" className={errors.expiry_date ? 'border-red-300 ring-1 ring-red-100' : ''} />
-                <ErrorMsg name="expiry_date" />
+                <ErrorMsg name="expiry_date" errors={errors} />
             </div>
 
             <div className="md:col-span-2 lg:col-span-3 flex gap-4 mt-2">
                 <button
                     type="submit"
-                    className={`flex-1 font-bold py-3 px-6 rounded-lg transition-colors shadow-md flex items-center justify-center gap-2 ${editingProduct ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-green-700 hover:bg-green-800 text-white'}`}
+                    className={`flex-1 font-bold py-4 px-6 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 active:scale-[0.98] ${editingProduct ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white' : 'bg-gradient-to-r from-green-700 to-emerald-600 hover:from-green-800 hover:to-emerald-700 text-white'}`}
                 >
-                    {editingProduct ? <><FaSave /> تعديل المنتج</> : <><FaPlus /> إضافة منتج جديد</>}
+                    {editingProduct ? <><FaSave className="text-xl" /> حفظ التعديلات</> : <><FaPlus className="text-xl" /> إضافة المنتج للمخزن</>}
                 </button>
                 {editingProduct && (
                     <button
                         type="button"
                         onClick={clearEdit}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md flex items-center justify-center gap-2"
+                        className="bg-slate-500 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
                     >
-                        <FaTimes /> إلغاء
+                        <FaTimes className="text-xl" /> إلغاء
                     </button>
                 )}
             </div>
+
+            <SuccessModal
+                isOpen={isSuccessModalOpen}
+                onClose={() => setIsSuccessModalOpen(false)}
+                message={successMessage}
+            />
         </form>
     );
 }

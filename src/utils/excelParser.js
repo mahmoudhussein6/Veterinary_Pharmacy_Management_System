@@ -4,23 +4,38 @@ export const readExcelFile = (file) => {
     return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
-            const workbook = XLSX.read(e.target.result, { type: "binary" });
+            const workbook = XLSX.read(e.target.result, {
+                type: "binary",
+                cellDates: true,
+                cellNF: false,
+                cellText: false
+            });
             const sheet = workbook.Sheets[workbook.SheetNames[0]];
-            const rawData = XLSX.utils.sheet_to_json(sheet);
+            const rawData = XLSX.utils.sheet_to_json(sheet, { raw: true });
 
-            const mappedData = rawData.map(row => ({
-                id: Date.now() + Math.random(),
-                name: row["اسم المنتج"] || "",
-                active_ingredient: row["المادة الفعالة"] || "",
-                description: row["وصفه"] || "",
-                stock_closed: row["مغلق"] || 0,
-                stock_open: row["مفتوح"] || 0,
-                size: row["الحجم"] || "",
-                price_office: row["سعر المكتب"] || 0,
-                price_public: row["سعر الجمهور"] || 0,
-                price_per_cc: row["سعر سم / جم"] || row["سعر سم"] || 0,
-                expiry_date: row["تاريخ الانتهاء"] || ""
-            }));
+            const mappedData = rawData
+                .filter(row => row["اسم المنتج"] && !row["اسم المنتج"].includes("إجمالي"))
+                .map(row => {
+                    let expiry = row["تاريخ الانتهاء"];
+                    // If Excel parsed it as a Date object, convert to ISO string
+                    if (expiry instanceof Date) {
+                        expiry = expiry.toISOString().split('T')[0];
+                    }
+
+                    return {
+                        id: Date.now() + Math.random(),
+                        name: row["اسم المنتج"] || "",
+                        active_ingredient: row["المادة الفعالة"] || "",
+                        description: row["وصفه"] || "",
+                        stock_closed: row["الكمية"] || row["مغلق"] || 0,
+                        stock_open: row["مفتوح"] || 0,
+                        size: row["الحجم"] || "",
+                        price_office: row["سعر المكتب"] || 0,
+                        price_public: row["سعر الجمهور"] || 0,
+                        price_per_cc: row["سعر سم / جم"] || row["سعر سم"] || 0,
+                        expiry_date: expiry || ""
+                    };
+                });
 
             resolve(mappedData);
         };
@@ -60,7 +75,7 @@ export const exportToExcel = (products) => {
         "اسم المنتج": p.name,
         "المادة الفعالة": p.active_ingredient,
         "وصفه": p.description,
-        "مغلق": p.stock_closed,
+        "الكمية": p.stock_closed,
         "مفتوح": p.stock_open || 0,
         "الحجم": p.size,
         "سعر المكتب": p.price_office,

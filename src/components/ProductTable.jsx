@@ -28,9 +28,9 @@ export default function ProductTable({ productsToDisplay, setEditingProduct, sor
     };
 
     const formatDate = (dateStr) => {
-        if (!dateStr) return "-";
+        if (!dateStr || dateStr === 0 || dateStr === "0") return "-";
         const date = new Date(dateStr);
-        if (isNaN(date)) return dateStr;
+        if (isNaN(date.getTime())) return dateStr;
         return date.toLocaleDateString("en-GB"); // Format as DD/MM/YYYY
     };
 
@@ -179,9 +179,17 @@ export default function ProductTable({ productsToDisplay, setEditingProduct, sor
                                 })
                             )}
                             {products.length > 0 && (
-                                <tr className="bg-indigo-700 text-white font-bold text-lg">
-                                    <td colSpan="9" className="px-6 py-4 text-left">إجمالي قيمة المخزن (مغلق):</td>
-                                    <td className="px-6 py-4 font-bold bg-indigo-800">
+                                <tr className="bg-indigo-700 text-white font-bold text-lg border-t-4 border-indigo-900 sticky bottom-0 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+                                    <td colSpan="3" className="px-6 py-5 text-right font-black uppercase tracking-wider">الإجماليات الكلية:</td>
+                                    <td className="px-6 py-5 text-center bg-indigo-800">
+                                        {products.reduce((acc, p) => acc + (Number(p.stock_closed) || 0), 0)}
+                                    </td>
+                                    <td colSpan="2" className="bg-indigo-700"></td>
+                                    <td className="px-6 py-5 font-mono bg-indigo-800">
+                                        L.E {products.reduce((acc, p) => acc + (Number(p.price_office) || 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </td>
+                                    <td colSpan="2" className="bg-indigo-700"></td>
+                                    <td className="px-6 py-5 font-bold bg-indigo-900 shadow-inner">
                                         L.E {products.reduce((acc, p) => acc + ((Number(p.stock_closed) || 0) * (Number(p.price_office) || 0)), 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </td>
                                     <td colSpan="3" className="bg-indigo-700"></td>
